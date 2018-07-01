@@ -3,6 +3,7 @@ import HeaderComponent from "./components/HeaderComponents";
 import List from "./components/List";
 import ListItem from "./components/ListItem";
 import FormSubmit from "./components/FormSubmit";
+import Axios from"axios";
 
 class App extends Component {
   constructor(props) {
@@ -18,7 +19,15 @@ class App extends Component {
     // การส่งค่านี้เข้าไป
     this.onChangmMessage = this.onChangmMessage.bind(this);
     this.onSubmitMessage = this.onSubmitMessage.bind(this);
+    this.onCheckbox=this.onCheckbox.bind(this);
   }
+  componentDidMount = () => {
+    Axios.get("htpp://localhost:3001/todos").then(Response=>{
+
+    });
+    
+  };
+  
 
   onChangmMessage(e) {
     this.setState({ message: e.target.value });
@@ -38,6 +47,18 @@ class App extends Component {
     oldTodos.push(newMassage);
     this.setState({ todos: oldTodos });
   }
+  onCheckbox(index,id){
+    let check =this.state.todos[index].complete;
+    Axios.patch(URL+"/todos"+id,{complete: check}).then(require=>{
+      let oldState=this.state.todos;
+      oldState[index].complete=!check;
+      this.setState({todos:oldState});
+    });
+
+  }
+
+
+
   render() {
     return (
       <div
@@ -52,7 +73,7 @@ class App extends Component {
         }}
       >
         <HeaderComponent />
-        <List todos={this.state.todos}>
+        <List todos={this.state.todos}onCheckbox={this.onCheckbox}>
           <ListItem />
         </List>
         <FormSubmit

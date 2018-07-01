@@ -5,8 +5,9 @@ class ListItem extends Component {
         return (
            <div>
                
-               {this.props.todos.map(item =>(
+               {this.props.todos.map((item, index )=>(
                 <div
+                onChange={()=>this.props.onCheckbox(index, item.id)}
                 key = {item.id}
                     style={{
                         backgroundColor: "#fefefe",
@@ -20,7 +21,7 @@ class ListItem extends Component {
                         paddingBottom: 19
                      }}
                 >
-                    <input type="checkbox"  />
+                    <input type="checkbox" checked={item.complete}  />
                     {item.name}
                 </div>
             ))}
